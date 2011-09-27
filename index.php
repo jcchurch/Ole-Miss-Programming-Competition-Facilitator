@@ -9,42 +9,42 @@ class MyPage extends Page {
     <h3>New Contestant Registration</h3>
     <hr>
 END;
-            $showNewContestantForm = true;
+        $showNewContestantForm = true;
 	    $contestants = getContestants();
 
 	    if (isset($contestants[$this->username])) {
-                echo "<h3>Head over to <a href=\"standings.php\">standings</a> and get to work.</h3>";
-		$showNewContestantForm = false;
-            }
-            else if (isset($_REQUEST['name']) || isset($_REQUEST['language'])) {
-                $name = trim($_REQUEST['name']);
-                $language = trim($_REQUEST['language']);
+            echo "<h3>Head over to <a href=\"standings.php\">standings</a> and get to work.</h3>";
+		    $showNewContestantForm = false;
+        }
+        else if (isset($_REQUEST['name']) || isset($_REQUEST['language'])) {
+            $name = trim($_REQUEST['name']);
+            $language = trim($_REQUEST['language']);
 
-                $name = preg_replace('/javascript\s*:/i', '', $name);
-                $language = preg_replace('/javascript\s*:/i', '', $language);
+            $name = preg_replace('/javascript\s*:/i', '', $name);
+            $language = preg_replace('/javascript\s*:/i', '', $language);
 
-                $name = str_replace("'", "\'", $name);
-                $language = str_replace("'", "\'", $language);
+            $name = str_replace("'", "\'", $name);
+            $language = str_replace("'", "\'", $language);
 
-                $errors = array();
+            $errors = array();
 
-                if ($name == "") { $errors[]= "The name field is blank."; }
-                if ($language == "") { $errors[]= "The language field is blank."; } 
+            if ($name == "") { $errors[]= "The name field is blank."; }
+            if ($language == "") { $errors[]= "The language field is blank."; } 
 
-                if (count($errors) > 0) {
-                    echo "<p>The following errors must be fixed.</p>\n";
-                    echo "<ul>\n";
-                    foreach ($errors as $e) {
-                        echo "<li>$e</li>\n";
-                    }
-                    echo "</ul>\n";
-                    echo "<hr>\n";
+            if (count($errors) > 0) {
+                echo "<p>The following errors must be fixed.</p>\n";
+                echo "<ul>\n";
+                foreach ($errors as $e) {
+                    echo "<li>$e</li>\n";
                 }
-                else {
-                    $showNewContestantForm = false;
+                echo "</ul>\n";
+                echo "<hr>\n";
+            }
+            else {
+                $showNewContestantForm = false;
 
-                    // At this point, we need to check to see if user already exists.
-		    $query = "INSERT INTO contestants (username, name, language, creationTime, enabled) VALUES ('{$this->username}', '$name', '$language', datetime('now'), 1);";
+                // At this point, we need to check to see if user already exists.
+		        $query = "INSERT INTO contestants (username, name, language, creationTime, enabled) VALUES ('{$this->username}', '$name', '$language', datetime('now'), 1);";
                     $db = new SQLiteDatabase('competition.db', 0666);
                     $db->queryExec($query, $error);
                     echo "<h3>Welcome to the competition, $name. Get started by <a href=\"standings.php\">Checking the standings.</a></h3>";
