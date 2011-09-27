@@ -56,7 +56,7 @@ class MyPage extends Page {
                     $pos++;
                 }
 
-                while ($pos < count($standings) && $standings[$pos]['correct'] == $solved && $standings['score'] < $score) {
+                while ($pos < count($standings) && $standings[$pos]['correct'] == $solved && $standings[$pos]['score'] < $score) {
                     $pos++;
                 }
 
