@@ -14,4 +14,6 @@ $problems = array(
 $start_time = "2011-09-26 19:30:00";
 $end_time   = "2011-09-26 22:00:00";
 
+$penalty_minutes = 15;
+
 ?>

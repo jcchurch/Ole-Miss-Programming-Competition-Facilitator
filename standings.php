@@ -5,6 +5,7 @@ require_once('template.php');
 class MyPage extends Page {
     function main() {
         global $problems;
+        global $penalty_minutes;
         $db = new SQLiteDatabase('competition.db', 0666);
 
         // Get submissions
@@ -39,7 +40,7 @@ class MyPage extends Page {
                 }
                 if ($passed_time >= 0) {
                     $solved++;
-                    $this_contestant[$problem] = $passed_time + 15 * $penalties;
+                    $this_contestant[$problem] = $passed_time + $penalty_minutes * $penalties;
                     $score += $this_contestant[$problem];
                 }
             }
