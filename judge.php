@@ -2,6 +2,10 @@
 
 require_once('template.php');
 
+function compare_submittime($a, $b) {
+    return (int)$a['submitTime'] < (int)$b['submitTime'];
+}
+
 class MyPage extends Page {
     function main() {
         $db = new SQLiteDatabase('competition.db', 0666);
@@ -19,8 +23,10 @@ class MyPage extends Page {
         echo "<h3>Submission Judging Page</h3>\n";
         echo "<hr>\n";
 
-        $query = "SELECT rowid, contestant, problem, submitTime, status FROM submissions ORDER BY submitTime DESC;";
+        $query = "SELECT rowid, contestant, problem, submitTime, status FROM submissions;";
         $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
+
+        usort($submissions, 'compare_submittime');
 
         echo "<table border='1'>\n";
         echo "  <tr>\n";
