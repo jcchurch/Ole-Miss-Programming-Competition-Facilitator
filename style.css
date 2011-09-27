@@ -1,0 +1,73 @@
+body, p {
+    font-family: Verdana, Arial, sans-serif;
+    font-size:   1.1em;
+}
+
+#menu li a, #menu li a:link, li #menu a:visited {
+    font-weight: bold;
+    font-size:   1em;
+}
+
+#navcontainer ul
+{
+padding-left: 0;
+margin: 0;
+background-color: #036;
+color: White;
+float: left;
+width: 100%;
+font-family: arial, helvetica, sans-serif;
+}
+
+#navcontainer ul li { display: inline; }
+
+#navcontainer ul li a
+{
+padding: 0.2em 1em;
+background-color: #036;
+color: White;
+text-decoration: none;
+float: left;
+}
+
+#navcontainer ul li a:hover
+{
+background-color: #369;
+color: #fff;
+}
+
+div#loginbox {
+    width: 200px;
+    float: left;
+    margin: 3px 3px 3px 3px;
+    display: block;
+    text-align: left;
+}
+
+div#main    {
+    float:       left;
+    width:       100%;
+}
+
+div#wrapper {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+div#header {
+background-color: #036;
+width:  100%;
+margin: 0px 0px 0px 0px;
+padding: 0px 0px;
+display: block;
+float: left;
+white-space: nowrap;
+}
+
+div#footer    {
+    float:       left;
+    width:       100%;
+}
+
+
