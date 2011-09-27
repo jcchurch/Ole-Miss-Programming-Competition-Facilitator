@@ -16,7 +16,6 @@ class Page {
     function login() {
         // First, we check for a SESSION variable.
         session_start();
-        $this->auth = true; // $auth == true when we tried to authenticate and succeeded or we did not try at all.
         $this->displayLogin = false;
 
         if (isset($_SESSION['username'])) {
@@ -35,8 +34,8 @@ class Page {
             return false;
         }
 
-	$adldap = new adLDAP();
-	$auth = $adldap->authenticate($user, $pass);
+        $adldap = new adLDAP();
+        $auth = $adldap->authenticate($user, $pass);
 
         if ($this->auth) {
             $this->username = $user;
@@ -44,6 +43,7 @@ class Page {
             return true;
         }
 
+        $this->displayLogin = true;
         return false;
     }
 
