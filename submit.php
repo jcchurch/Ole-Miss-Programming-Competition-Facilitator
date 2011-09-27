@@ -19,7 +19,7 @@ class MyPage extends Page {
             $showInputDialog = false; 
         }
         else if ($minutes_since_start > $minutes_in_competition) {
-            echo "<h4>The competition is now over. Thank you participating. Check the standings to see how you did.</h4>\n";
+            echo "<h4>The competition is now over. Thank you for participating. Check the standings to see how you did.</h4>\n";
             $showInputDialog = false; 
         }
         else {
