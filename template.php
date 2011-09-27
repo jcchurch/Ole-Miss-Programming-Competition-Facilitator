@@ -103,7 +103,7 @@ echo <<<END
     <div id="footer">
     <hr>
     <p>The University of Mississippi Department of Computer and Information Science</p>
-    <p>The code for this project is on GitHub: <a href=""></a>.</p>
+    <p>The code for this project is on <a href="https://github.com/jcchurch/Ole-Miss-Programming-Competition-Facilitater">GitHub</a>.</p>
     </div>
 
 END;
