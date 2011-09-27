@@ -1,6 +1,6 @@
 <?
 
-// die(); // Uncomment this line after executing. :)
+die(); // Uncomment this line after executing. :)
 
 $db = new SQLiteDatabase('competition.db', 0666);
 
