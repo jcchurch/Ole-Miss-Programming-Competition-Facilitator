@@ -2,14 +2,19 @@
 
 require_once('template.php');
 
+function compare_submittime($a, $b) {
+    return (int)$a['submitTime'] < (int)$b['submitTime'];
+}
+
 class MyPage extends Page {
     function main() {
         echo "<h3>My Results</h3>\n";
         echo "<hr>\n";
 
         $db = new SQLiteDatabase('competition.db', 0666);
-        $query = "SELECT problem, submitTime, status FROM submissions WHERE contestant='{$this->username}' ORDER BY submitTime DESC;";
+        $query = "SELECT problem, submitTime, status FROM submissions WHERE contestant='{$this->username}';";
         $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
+        usort($submissions, 'compare_submittime');
 
         $correct = 0;
         // We use this loop to rewrite the status codes to English and to count correct problems.
