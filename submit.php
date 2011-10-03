@@ -35,12 +35,12 @@ class MyPage extends Page {
                 }
                 else {
                     $problem = $m[2];
-                    $target_path = $basedirectory ."/". $this->username ."/". $problem ."/". strval($minutes_since_start);
+                    $target_path = $basedirectory ."_". $this->username ."_". $problem ."_". strval($minutes_since_start);
                     mkdir($target_path, 0777, true);
                     if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path ."/". $file)) {
                         echo "<h4> Your program '$file' has been uploaded. Please wait for the judge to check it. $minutes_since_start minutes have passed since the start of the compeition.</h4>";
                         $showInputDialog = false; 
-                        $db = new SQLiteDatabase('competition.db', 0666);
+                        $db = new SQLiteDatabase($competition_db, 0666);
                         $query = "INSERT INTO submissions (contestant, problem, submitTime, status) VALUES ('{$this->username}', '$problem', $minutes_since_start, -1);";
                         $db->queryExec($query);
                     }

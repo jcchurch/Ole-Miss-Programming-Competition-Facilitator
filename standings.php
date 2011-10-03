@@ -6,7 +6,7 @@ class MyPage extends Page {
     function main() {
         global $problems;
         global $penalty_minutes;
-        $db = new SQLiteDatabase('competition.db', 0666);
+        $db = new SQLiteDatabase($competition_db, 0666);
 
         // Get submissions
         $query = "SELECT contestant, problem, submitTime, status FROM submissions;";

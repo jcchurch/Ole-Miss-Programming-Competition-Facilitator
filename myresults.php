@@ -11,7 +11,7 @@ class MyPage extends Page {
         echo "<h3>My Results</h3>\n";
         echo "<hr>\n";
 
-        $db = new SQLiteDatabase('competition.db', 0666);
+        $db = new SQLiteDatabase($competition_db, 0666);
         $query = "SELECT problem, submitTime, status FROM submissions WHERE contestant='{$this->username}';";
         $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
         usort($submissions, 'compare_submittime');

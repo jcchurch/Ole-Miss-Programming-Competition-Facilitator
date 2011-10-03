@@ -45,7 +45,7 @@ END;
 
                 // At this point, we need to check to see if user already exists.
 		        $query = "INSERT INTO contestants (username, name, language, creationTime, enabled) VALUES ('{$this->username}', '$name', '$language', datetime('now'), 1);";
-                    $db = new SQLiteDatabase('competition.db', 0666);
+                    $db = new SQLiteDatabase($competition_db, 0666);
                     $db->queryExec($query, $error);
                     echo "<h3>Welcome to the competition, $name. Get started by <a href=\"standings.php\">Checking the standings.</a></h3>";
                 }

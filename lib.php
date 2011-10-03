@@ -15,7 +15,9 @@ function getJudges() {
 }
 
 function getContestants() {
-    $db = new SQLiteDatabase('competition.db', 0666);
+    global $competition_db;
+    $db = new SQLiteDatabase($competition_db, 0666);
+
     $query = "SELECT username, name FROM contestants WHERE enabled=1";
     $names_result = $db->arrayQuery($query, SQLITE_ASSOC);
     $names = array();

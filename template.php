@@ -13,15 +13,18 @@ class Page {
         $this->usertype = "new contestant";
     }
 
+    // This function returns two variables.
+    // The first variable indicates if we should display the login dialog box.
+    // The second variable indicates if there was a problem with the authentication. (true means problem, false means no problem)
     function login() {
         // First, we check for a SESSION variable.
         session_start();
-        $this->displayLogin = false;
 
         if (isset($_SESSION['username'])) {
             // Great! We return the username.
             $this->username = $_SESSION['username'];
-            return true;
+            $this->usertype = getUserType($this->username);
+            return array(false, false);
         }
 
         // If this fails, we grab the user and pass $_REQUEST variables
@@ -30,21 +33,20 @@ class Page {
         $pass = ifsetor($_REQUEST['pass'], "");
 
         if ($user == "" || $pass == "") {
-            $this->displayLogin = true;
-            return false;
+            return array(true, false);
         }
 
         $adldap = new adLDAP();
         $auth = $adldap->authenticate($user, $pass);
 
-        if ($this->auth) {
+        if ($auth) {
             $this->username = $user;
+            $this->usertype = getUserType($this->username);
             $_SESSION['username'] = $user;
-            return true;
+            return array(false, false);
         }
 
-        $this->displayLogin = true;
-        return false;
+        return array(true, true);
     }
 
     function setTitle($title) {
@@ -109,12 +111,12 @@ echo <<<END
 END;
     }
 
-    function showLogin() {
+    function showLogin($loginError) {
         echo "<div id=\"loginbox\">\n";
-        if ($this->auth)
-            echo "<span class=\"formlabel\">Welcome!</span><br/>\n";
-        else
+        if ($loginError)
             echo "<span class=\"error\">Login failed. Check your username and password and try again.</span><br/>\n";
+        else
+            echo "<span class=\"formlabel\">Welcome!</span><br/>\n";
 
 echo <<<END
     <form method="post" name="loginForm" action="index.php">
@@ -131,10 +133,7 @@ END;
     function main() { }
 
     function writePage() {
-        $success = $this->login();
-        if ($success) {
-            $this->usertype = getUserType($this->username);
-        }
+        list($displayLogin, $loginError) = $this->login();
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
         echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n";
@@ -142,8 +141,8 @@ END;
         echo "    <div id=\"wrapper\">\n";
         $this->showHeader();
         echo "        <div id=\"main\">\n";
-        if ($this->displayLogin) {
-            $this->showLogin();
+        if ($displayLogin) {
+            $this->showLogin($loginError);
         }
         else {
             if (in_array($this->usertype, $this->pagetype)) {

@@ -4,7 +4,8 @@ require_once('template.php');
 
 class MyPage extends Page {
     function main() {
-        $db = new SQLiteDatabase('competition.db', 0666);
+        global $competition_db;
+        $db = new SQLiteDatabase($competition_db, 0666);
 
         if (isset($_REQUEST['update'])) {
             $username = trim($_REQUEST['username']);

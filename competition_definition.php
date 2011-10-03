@@ -1,6 +1,9 @@
 <?
 
 // Competition File
+
+$competition_db = "competition.db";
+
 $judges = array("jcchurch");
 
 $problems = array(
