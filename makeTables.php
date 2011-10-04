@@ -2,6 +2,8 @@
 
 die(); // Uncomment this line after executing. :)
 
+$competition_db = "competition.db";
+
 $db = new SQLiteDatabase($competition_db, 0666);
 
 $db->queryExec('CREATE TABLE submissions (contestant TEXT, problem TEXT, submitTime TEXT, status INTEGER, judge TEXT, judgeTime TEXT);');

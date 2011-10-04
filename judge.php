@@ -8,6 +8,7 @@ function compare_submittime($a, $b) {
 
 class MyPage extends Page {
     function main() {
+        global $competition_db;
         $db = new SQLiteDatabase($competition_db, 0666);
 
         if (isset($_REQUEST['newstatus'])) {

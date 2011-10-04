@@ -4,6 +4,7 @@ require_once('template.php');
 
 class MyPage extends Page {
     function main() {
+        global $competition_db;
         if ($this->usertype = "new contestant") {
             echo <<<END
     <h3>New Contestant Registration</h3>

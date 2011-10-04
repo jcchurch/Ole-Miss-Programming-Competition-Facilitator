@@ -8,6 +8,7 @@ function compare_submittime($a, $b) {
 
 class MyPage extends Page {
     function main() {
+        global $competition_db;
         echo "<h3>My Results</h3>\n";
         echo "<hr>\n";
 

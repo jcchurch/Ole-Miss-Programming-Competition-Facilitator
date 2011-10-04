@@ -4,6 +4,7 @@ require_once('template.php');
 
 class MyPage extends Page {
     function main() {
+        global $competition_db;
         echo "<h3>Submit a problem solution.</h3>\n";
         echo "<hr>\n";
         $showInputDialog = true;

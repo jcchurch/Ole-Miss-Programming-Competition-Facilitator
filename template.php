@@ -54,6 +54,11 @@ class Page {
     }
 
     function showHeader() {
+        global $end_time;
+        $minutes_remaining = (int)((strtotime($end_time) - time()) / 60);
+        if ($minutes_remaining < 0) {
+            $minutes_remaining = 0;
+        }
 echo <<<END
             <div id="header">
                 <img src="images/olemiss.png" width="410" height="136">
@@ -68,6 +73,7 @@ echo <<<END
                         <li><a href="judge.php">Submissions</a></li>
                         <li><a href="contestants.php">Contestants</a></li>
                         <li><a href="logout.php">Logout</a></li>
+                        <li><a href="#">$minutes_remaining minutes remaining</a></li>
                     </ul>
                 </div>
 
@@ -81,6 +87,7 @@ echo <<<END
                         <li><a href="submit.php">Submit a program</a></li>
                         <li><a href="myresults.php">My Results</a></li>
                         <li><a href="logout.php">Logout</a></li>
+                        <li><a href="#">$minutes_remaining minutes remaining</a></li>
                     </ul>
                 </div>
 

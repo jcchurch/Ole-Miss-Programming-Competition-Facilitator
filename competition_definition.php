@@ -14,8 +14,8 @@ $problems = array(
 );
 
 // Times are local, but we can change them to GMT
-$start_time = "2011-09-26 19:30:00";
-$end_time   = "2011-09-26 22:00:00";
+$start_time = "2011-10-03 20:00:00";
+$end_time   = "2011-10-03 21:30:00";
 
 $penalty_minutes = 15;
 
