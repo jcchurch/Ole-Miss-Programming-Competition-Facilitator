@@ -1,4 +1,4 @@
-<?
+<?php
 
 die(); // Uncomment this line after executing. :)
 

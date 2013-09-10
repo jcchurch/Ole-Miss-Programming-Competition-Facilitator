@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('competition_definition.php');
 
