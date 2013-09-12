@@ -1,6 +1,6 @@
 <?php
 
-require_once('competition_definition.php');
+require_once('settings.php');
 
 function ifsetor(&$val, $default = null, $pattern = null) {
     if ($pattern != null) {

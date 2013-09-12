@@ -1,0 +1,12 @@
+#AuthName "Restricted Area" 
+#AuthType Basic 
+#AuthUserFile .htpasswd  
+#require valid-user
+
+AddHandler mod_python .py
+PythonHandler mod_python.publisher
+PythonDebug On
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
