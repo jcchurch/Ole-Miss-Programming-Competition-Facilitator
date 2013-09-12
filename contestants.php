@@ -5,7 +5,7 @@ require_once('template.php');
 class MyPage extends Page {
     function main() {
         global $competition_db;
-        $db = new SQLiteDatabase($competition_db, 0666);
+        $db = new PDO("sqlite:$competition_db");
 
         if (isset($_REQUEST['update'])) {
             $username = trim($_REQUEST['username']);
@@ -16,22 +16,22 @@ class MyPage extends Page {
             $name = str_replace("'", "\'", $name);
 
             $query = "UPDATE contestants SET name='$name', enabled=$enable WHERE username='$username';";
-            $db->queryExec($query);
+            $db->exec($query);
         }
 
         if (isset($_REQUEST['deleteme'])) {
             $username = trim($_REQUEST['username']);
             $query = "DELETE FROM contestants WHERE username='$username';";
-            $db->queryExec($query);
+            $db->exec($query);
             $query = "DELETE FROM submissions WHERE contestant='$username';";
-            $db->queryExec($query);
+            $db->exec($query);
         }
 
         echo "<h3>Contestants</h3>\n";
         echo "<hr>\n";
 
         $query = "SELECT * FROM contestants;";
-        $contestants = $db->arrayQuery($query, SQLITE_ASSOC);
+        $contestants = $db->query($query);
 
         foreach ($contestants as $c) {
 echo <<<END

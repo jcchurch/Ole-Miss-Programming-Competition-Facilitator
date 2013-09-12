@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 
 require_once('template.php');
 
@@ -7,11 +9,10 @@ class MyPage extends Page {
         global $problems;
         global $penalty_minutes;
         global $competition_db;
-        $db = new SQLiteDatabase($competition_db, 0666);
+        $db = new PDO("sqlite:$competition_db");
 
         // Get submissions
         $query = "SELECT contestant, problem, submitTime, status FROM submissions;";
-        $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
 
         $contestants = getContestants();
 
@@ -24,11 +25,12 @@ class MyPage extends Page {
             $this_contestant = array();
             $this_contestant['name'] = $contestants[$contestant];
             $this_contestant['correct'] = 0;
+            $this_contestant['score'] = 0;
             foreach (array_keys($problems) as $problem) {
                 $penalties = 0;
                 $passed_time = -1;
                 $this_contestant[$problem] = -1;
-                foreach ($submissions as $row) {
+                foreach ($db->query($query) as $row) {
                     if ($row['contestant'] == $contestant && $row['problem'] == $problem) {
 
                         if ($row['status'] > 0) {

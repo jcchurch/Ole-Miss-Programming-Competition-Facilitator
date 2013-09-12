@@ -14,14 +14,45 @@ function getJudges() {
     return $judges;
 }
 
+function logOutCurrentUser() {
+    global $competition_db;
+    $db = new PDO("sqlite:$competition_db");
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    $query = "UPDATE users SET loggedIn=0 WHERE ipaddress='$ip'";
+    $db->exec($query);
+}
+
+function setLoginOfUser($username, $loggedIn=1) {
+    global $competition_db;
+    $db = new PDO("sqlite:$competition_db");
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    $query = "INSERT OR REPLACE INTO users (username, loggedIn, ipaddress) VALUES ('$username', $loggedIn, '$ip');";
+    $db->exec($query);
+}
+
+// Returns the username or false
+function getLoggedInUser() {
+    global $competition_db;
+    $db = new PDO("sqlite:$competition_db");
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $loggedIn = false;
+
+    $query = "SELECT username FROM users WHERE loggedIn=1 AND ipaddress='$ip'";
+    foreach ($db->query($query) as $n) {
+        $loggedIn = $n['username'];
+    }
+    return $loggedIn;
+}
+
 function getContestants() {
     global $competition_db;
-    $db = new SQLiteDatabase($competition_db, 0666);
+    $db = new PDO("sqlite:$competition_db");
 
     $query = "SELECT username, name FROM contestants WHERE enabled=1";
-    $names_result = $db->arrayQuery($query, SQLITE_ASSOC);
     $names = array();
-    foreach ($names_result as $n) {
+    foreach ($db->query($query) as $n) {
         $names[$n['username']] = $n['name'];
     }
     return $names;

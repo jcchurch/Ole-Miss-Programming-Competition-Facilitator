@@ -12,42 +12,48 @@ class MyPage extends Page {
         echo "<h3>My Results</h3>\n";
         echo "<hr>\n";
 
-        $db = new SQLiteDatabase($competition_db, 0666);
-        $query = "SELECT problem, submitTime, status FROM submissions WHERE contestant='{$this->username}';";
-        $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
+        $db = new PDO("sqlite:$competition_db");
+        $query = "SELECT problem, submitTime, status FROM submissions WHERE username='{$this->username}';";
+        $submissions = array();
         usort($submissions, 'compare_submittime');
 
         $correct = 0;
         // We use this loop to rewrite the status codes to English and to count correct problems.
-        for ($i = 0; $i < count($submissions); $i++) {
-            if ($submissions[$i]['status'] == -1) {
-                $submissions[$i]['status'] = "Submission is currently being judged.";
+        foreach ($db->query($query) as $sub) {
+            $thisSubmission = array();
+            $thisSubmission['problem'] = $sub['problem'];
+            $thisSubmission['submitTime'] = $sub['submitTime'];
+
+            if ($sub['status'] == -1) {
+                $thisSubmission['status'] = "Please wait for the judges to respond.";
             }
 
-            else if ($submissions[$i]['status'] == 0) {
+            else if ($sub['status'] == 0) {
                 $correct += 1;
-                $submissions[$i]['status'] = "Correct Answer";
+                $thisSubmission['status'] = "Correct Answer";
             }
 
-            else if ($submissions[$i]['status'] == 1) {
-                $submissions[$i]['status'] = "Syntax error";
+            else if ($sub['status'] == 1) {
+                $thisSubmission['status'] = "Syntax error";
             }
 
-            else if ($submissions[$i]['status'] == 2) {
-                $submissions[$i]['status'] = "Run Time Error";
+            else if ($sub['status'] == 2) {
+                $thisSubmission['status'] = "Run Time Error";
             }
 
-            else if ($submissions[$i]['status'] == 3) {
-                $submissions[$i]['status'] = "Wrong Answer";
+            else if ($sub['status'] == 3) {
+                $thisSubmission['status'] = "Wrong Answer";
             }
 
-            else if ($submissions[$i]['status'] == 4) {
-                $submissions[$i]['status'] = "Presentation error";
+            else if ($sub['status'] == 4) {
+                $thisSubmission['status'] = "Presentation error";
             }
 
-            else if ($submissions[$i]['status'] == 5) {
-                $submissions[$i]['status'] = "Time Limit Exceeded";
+            else if ($sub['status'] == 5) {
+                $thisSubmission['status'] = "Time Limit Exceeded";
             }
+
+            $submissions[]= $thisSubmission;
         }
 
         $message = "";

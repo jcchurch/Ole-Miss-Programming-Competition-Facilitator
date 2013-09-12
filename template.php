@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('lib.php');
 require_once("/var/www/includes/adLDAP.php");
@@ -17,12 +17,11 @@ class Page {
     // The first variable indicates if we should display the login dialog box.
     // The second variable indicates if there was a problem with the authentication. (true means problem, false means no problem)
     function login() {
-        // First, we check for a SESSION variable.
-        session_start();
 
-        if (isset($_SESSION['username'])) {
+        $user = getLoggedInUser();
+        if ($user !== false) {
             // Great! We return the username.
-            $this->username = $_SESSION['username'];
+            $this->username = $user;
             $this->usertype = getUserType($this->username);
             return array(false, false);
         }
@@ -42,7 +41,7 @@ class Page {
         if ($auth) {
             $this->username = $user;
             $this->usertype = getUserType($this->username);
-            $_SESSION['username'] = $user;
+            setLoginOfUser($user, 1);
             return array(false, false);
         }
 
@@ -60,48 +59,48 @@ class Page {
             $minutes_remaining = 0;
         }
 echo <<<END
-            <div id="header">
-                <img src="images/olemiss.png" width="410" height="136">
+<div id="header">
+    <img src="images/olemiss.png" width="410" height="136">
 
 END;
 
 if ($this->usertype == "judge")
 echo <<<END
-                <div id="navcontainer">
-                    <ul id="navlist">
-                        <li><a href="standings.php">Standings</a></li>
-                        <li><a href="judge.php">Submissions</a></li>
-                        <li><a href="contestants.php">Contestants</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                        <li><a href="#">$minutes_remaining minutes remaining</a></li>
-                    </ul>
-                </div>
+    <div id="navcontainer">
+        <ul id="navlist">
+            <li><a href="standings.php">Standings</a></li>
+            <li><a href="judge.php">Submissions</a></li>
+            <li><a href="contestants.php">Contestants</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <li><a href="#">$minutes_remaining minutes remaining</a></li>
+        </ul>
+    </div> <!-- navcontainer -->
 
 END;
 
 if ($this->usertype == "contestant")
 echo <<<END
-                <div id="navcontainer">
-                    <ul id="navlist">
-                        <li><a href="standings.php">Standings</a></li>
-                        <li><a href="submit.php">Submit a program</a></li>
-                        <li><a href="myresults.php">My Results</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                        <li><a href="#">$minutes_remaining minutes remaining</a></li>
-                    </ul>
-                </div>
+    <div id="navcontainer">
+        <ul id="navlist">
+            <li><a href="standings.php">Standings</a></li>
+            <li><a href="submit.php">Submit a program</a></li>
+            <li><a href="myresults.php">My Results</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <li><a href="#">$minutes_remaining minutes remaining</a></li>
+        </ul>
+    </div> <!-- navcontainer -->
 
 END;
 
-echo "            </div>\n";
+echo "</div> <!-- header -->\n";
     }
 
     function showTitle() {
 echo <<<END
-    <head>
-        <title>{$this->titlepage}</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
+<head>
+    <title>{$this->titlepage}</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
 
 END;
     }
@@ -109,21 +108,21 @@ END;
     function showFooter() {
 echo <<<END
 
-    <div id="footer">
-    <hr>
-    <p>The University of Mississippi Department of Computer and Information Science</p>
-    <p>The code for this project is on <a href="https://github.com/jcchurch/Ole-Miss-Programming-Competition-Facilitator">GitHub</a>.</p>
-    </div>
+<div id="footer">
+<hr>
+<p>The University of Mississippi Department of Computer and Information Science</p>
+<p>The code for this project is on <a href="https://github.com/jcchurch/Ole-Miss-Programming-Competition-Facilitator">GitHub</a>.</p>
+</div> <!-- footer -->
 
 END;
     }
 
     function showLogin($loginError) {
-        echo "<div id=\"loginbox\">\n";
+        echo "    <div id=\"loginbox\">\n";
         if ($loginError)
-            echo "<span class=\"error\">Login failed. Check your username and password and try again.</span><br/>\n";
+            echo "    <span class=\"error\">Login failed. Check your username and password and try again.</span><br/>\n";
         else
-            echo "<span class=\"formlabel\">Welcome!</span><br/>\n";
+            echo "    <span class=\"formlabel\">Welcome!</span><br/>\n";
 
 echo <<<END
     <form method="post" name="loginForm" action="index.php">
@@ -133,7 +132,8 @@ echo <<<END
         <p><input type="password" name="pass" size="15"></p>
         <p><input type="submit" value="Login"></p>
     </form>
-    </div>
+    </div> <!-- loginbox -->
+
 END;
     }
 
@@ -145,9 +145,9 @@ END;
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
         echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n";
         $this->showTitle();
-        echo "    <div id=\"wrapper\">\n";
+        echo "<div id=\"wrapper\">\n";
         $this->showHeader();
-        echo "        <div id=\"main\">\n";
+        echo "<div id=\"main\">\n";
         if ($displayLogin) {
             $this->showLogin($loginError);
         }
@@ -159,11 +159,11 @@ END;
                 echo "<p>Not the correct usertype to see page.</p>\n";
             }
         }
-        echo "        </div>\n";
+        echo "</div> <!-- wrapper -->\n";
         $this->showFooter();
-        echo "    </div>\n";
+        echo "</div> <!-- main -->\n";
 
-        echo "    </body>\n";
+        echo "</body>\n";
         echo "</html>\n";
     }
 }

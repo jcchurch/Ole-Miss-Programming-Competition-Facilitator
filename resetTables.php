@@ -1,13 +1,14 @@
 <?php
 
-die(); // Uncomment this line after executing. :)
+// die(); // Uncomment this line after executing. :)
 
 $competition_db = "competition.db";
 
-$db = new SQLiteDatabase($competition_db, 0666);
+$db = new PDO("sqlite:$competition_db");
 
-$db->queryExec('DELETE FROM submissions;');
-$db->queryExec('DELETE FROM contestants;');
+$db->exec('DROP TABLE users;');
+$db->exec('DROP TABLE submissions;');
+$db->exec('DROP TABLE contestants;');
 
 echo "Thank you! Remember to comment out the 'die' command.\n\n"
 

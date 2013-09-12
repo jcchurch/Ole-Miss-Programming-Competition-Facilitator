@@ -9,7 +9,7 @@ function compare_submittime($a, $b) {
 class MyPage extends Page {
     function main() {
         global $competition_db;
-        $db = new SQLiteDatabase($competition_db, 0666);
+        $db = new PDO("sqlite:$competition_db");
 
         if (isset($_REQUEST['newstatus'])) {
             $rowid = $_REQUEST['id'];
@@ -18,14 +18,14 @@ class MyPage extends Page {
             $minutes_since_start = (int)((time() - strtotime($start_time)) / 60);
 
             $query = "UPDATE submissions SET status={$_REQUEST['newstatus']}, judge='{$this->username}', judgeTime=$minutes_since_start WHERE rowid=$rowid;";
-            $db->queryExec($query);
+            $db->exec($query);
         }
 
         echo "<h3>Submission Judging Page</h3>\n";
         echo "<hr>\n";
 
         $query = "SELECT rowid, contestant, problem, submitTime, status FROM submissions;";
-        $submissions = $db->arrayQuery($query, SQLITE_ASSOC);
+        $submissions = $db->query($query);
 
         usort($submissions, 'compare_submittime');
 

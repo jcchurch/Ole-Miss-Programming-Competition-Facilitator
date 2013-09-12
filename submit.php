@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('template.php');
 
@@ -41,9 +41,9 @@ class MyPage extends Page {
                     if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path ."/". $file)) {
                         echo "<h4> Your program '$file' has been uploaded. Please wait for the judge to check it. $minutes_since_start minutes have passed since the start of the compeition.</h4>";
                         $showInputDialog = false; 
-                        $db = new SQLiteDatabase($competition_db, 0666);
+                        $db = new PDO("sqlite:$competition_db");
                         $query = "INSERT INTO submissions (contestant, problem, submitTime, status) VALUES ('{$this->username}', '$problem', $minutes_since_start, -1);";
-                        $db->queryExec($query);
+                        $db->exec($query);
                     }
                     else{
                         $errors[] = "There was an error uploading the file. Please inform a judge quickly!\n";
