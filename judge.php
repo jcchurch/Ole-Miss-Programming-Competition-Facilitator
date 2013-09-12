@@ -25,7 +25,8 @@ class MyPage extends Page {
         echo "<hr>\n";
 
         $query = "SELECT rowid, contestant, problem, submitTime, status FROM submissions;";
-        $submissions = $db->query($query);
+        $submissions = array();
+        foreach ($db->query($query) as $s) { $submissions[]= $s; }
 
         usort($submissions, 'compare_submittime');
 
