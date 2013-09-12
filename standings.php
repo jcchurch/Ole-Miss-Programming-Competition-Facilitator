@@ -72,7 +72,7 @@ class MyPage extends Page {
 echo <<<END
     <h3>Standings</h3>
     <hr>
-    <table border="1">
+    <table border="1" width="100%">
       <tr>
         <td>Rank</td>
         <td>Name</td>
