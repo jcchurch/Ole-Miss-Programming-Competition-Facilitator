@@ -19,14 +19,6 @@ class MyPage extends Page {
             $db->exec($query);
         }
 
-        if (isset($_REQUEST['deleteme'])) {
-            $username = trim($_REQUEST['username']);
-            $query = "DELETE FROM contestants WHERE username='$username';";
-            $db->exec($query);
-            $query = "DELETE FROM submissions WHERE contestant='$username';";
-            $db->exec($query);
-        }
-
         echo "<h3>Contestants</h3>\n";
         echo "<hr>\n";
 
@@ -34,17 +26,23 @@ class MyPage extends Page {
         $contestants = $db->query($query);
 
         foreach ($contestants as $c) {
+
+            $checkEnabled = "";
+            $checkDisabled = "";
+            if ($c['enabled'] == 1) { $checkEnabled = " CHECKED"; }
+            if ($c['enabled'] == 0) { $checkDisabled = " CHECKED"; }
+
 echo <<<END
     <form action="contestants.php">
     <input type="hidden" name="username" value="{$c['username']}">
+    <p>Username: {$c['username']}</p>
     <p>Name: <input type="text" name="name" value="{$c['name']}"></p>
     <p>Language: {$c['language']}</p>
-    <input type="radio" name="enable" value="1" checked> Enabled<br>
-    <input type="radio" name="enable" value="0"> Disable<br>
+    <input type="radio" name="enable" value="1"$checkEnabled> Enabled<br>
+    <input type="radio" name="enable" value="0"$checkDisabled> Disable<br>
     <input type="submit" name="update" value="Update">
     <form action="contestants.php">
     <input type="hidden" name="username" value="{$c['username']}">
-    <input type="submit" name="deleteme" value="Delete Me!" />
     </form>
     <hr>
 END;
