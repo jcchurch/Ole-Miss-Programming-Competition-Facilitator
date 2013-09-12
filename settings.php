@@ -4,7 +4,7 @@
 
 $competition_db = "competition.db";
 
-$judges = array("jcchurch");
+$judges = array("xjcchurch");
 
 $problems = array(
     "A" => "Cowsay",

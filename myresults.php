@@ -13,7 +13,7 @@ class MyPage extends Page {
         echo "<hr>\n";
 
         $db = new PDO("sqlite:$competition_db");
-        $query = "SELECT problem, submitTime, status FROM submissions WHERE username='{$this->username}';";
+        $query = "SELECT problem, submitTime, status FROM submissions WHERE contestant='{$this->username}';";
         $submissions = array();
         usort($submissions, 'compare_submittime');
 
