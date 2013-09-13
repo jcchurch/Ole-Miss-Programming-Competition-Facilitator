@@ -29,20 +29,25 @@ class MyPage extends Page {
 
             if (isset($_FILES['uploadedfile']['name'])) {
                 $file = basename($_FILES['uploadedfile']['name']);
-                preg_match("/^(Prob)([A-Z])\.(c|cpp|java)$/", $file, $m);
+                preg_match("/^(Prob)([A-Z])\.(c|cpp|java|py|hs|lua|scala|rb)$/", $file, $m);
 
                 if (count($m) == 0) {
                     $errors[] = "Failed to determine which problem you are trying to solve. Check the filename and try again.\n";
                 }
                 else {
                     $problem = $m[2];
-                    $target_path = $basedirectory ."_". $this->username ."_". $problem ."_". strval($minutes_since_start);
-                    mkdir($target_path, 0777, true);
-                    if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path ."/". $file)) {
+
+                    // Make the base directory
+                    if (is_dir($basedirectory) == false) {
+                        mkdir($basedirectory, 0777, true);
+                    }
+
+                    $target_path = $basedirectory ."/". $this->username ."_". $problem ."_". strval($minutes_since_start) ."_". $file;
+                    if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path )) {
                         echo "<h4> Your program '$file' has been uploaded. Please wait for the judge to check it. $minutes_since_start minutes have passed since the start of the compeition.</h4>";
                         $showInputDialog = false; 
                         $db = new PDO("sqlite:$competition_db");
-                        $query = "INSERT INTO submissions (contestant, problem, submitTime, status) VALUES ('{$this->username}', '$problem', $minutes_since_start, -1);";
+                        $query = "INSERT INTO submissions (contestant, problem, submitTime, status, path) VALUES ('{$this->username}', '$problem', $minutes_since_start, -1, '$target_path');";
                         $db->exec($query);
                     }
                     else{
@@ -68,8 +73,9 @@ echo <<<END
 <p>Ready to submit a problem solution? Find your file and click submit. Please take a moment to make sure that your program fits the following criteria before clicking submit.</p>
 
 <ul>
-<li>The program name fits the pattern "Prob{A,B,C,D}.{c,cpp,java}". Notice that the file name begins with "Prob" as in "Problem", not "Program".</li>
-<li>Your program reads in the file "{A,B,C,D}.in". The output of your program should print to the screen.</li>
+<li>The program name fits the pattern "Prob{A,B,C,D}.{c,cpp,java,py,hs,lua,scala,rb}". Notice that the file name begins with "Prob" as in "Problem", not "Program".</li>
+<li>Your program outputs the exact sample output when provided the sample input.</li>
+<li>Your program reads input from standard input (i.e. the keyboard). The output of your program should print to the screen.</li>
 <li>Your program does not have any debugging statements.</li>
 <li>You are absolutely certain that you are ready to submit the program. Penality minutes will be applied for incorrect programs.</li>
 </ul>

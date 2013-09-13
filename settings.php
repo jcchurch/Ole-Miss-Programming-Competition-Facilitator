@@ -4,7 +4,7 @@
 
 $competition_db = "competition.db";
 
-$judges = array("xjcchurch");
+$judges = array("jcchurch");
 
 $problems = array(
     "A" => "Cowsay",
@@ -14,8 +14,8 @@ $problems = array(
 );
 
 // Times are local, but we can change them to GMT
-$start_time = "2011-10-03 20:00:00";
-$end_time   = "2011-10-03 21:30:00";
+$start_time = "2013-01-01 20:00:00";
+$end_time   = "2013-12-31 21:30:00";
 
 $penalty_minutes = 15;
 
