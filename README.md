@@ -26,7 +26,7 @@ testMostRescentSubmission.py is the script that I use to judge submissions. You 
 
 The testing area.
 
-    /mytestarea
+    /mytestingarea
         /ProbA
             /in - Judging Input for Problem A
             /out - Judging Output for Problem A
