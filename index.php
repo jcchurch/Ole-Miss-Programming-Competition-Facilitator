@@ -45,9 +45,10 @@ END;
                 }
                 else {
                     $showNewContestantForm = false;
+                    $startTime = (int)(time() / 60);
 
                     // At this point, we need to create the user
-                    $query = "INSERT INTO contestants (username, name, language, creationTime, enabled) VALUES ('{$this->username}', '$name', '$language', datetime('now'), 1);";
+                    $query = "INSERT INTO contestants (username, name, language, creationTime, enabled, startTime) VALUES ('{$this->username}', '$name', '$language', datetime('now'), 1, $startTime);";
                     $db = new PDO("sqlite:$competition_db");
                     $db->exec($query);
                     echo "<h3>Welcome to the competition, $name. Get started by <a href=\"standings.php\">Checking the standings.</a></h3>";
@@ -101,6 +102,8 @@ END;
         <option value="XKCD">A magnetized needle and a steady hand.</option>
         <option value="ILIVEIN1991">I only program in Windows BAT files.</option>
        </select></p>
+
+    <p>The competition will begin as soon as you click the submit button below. Clicking the submit button starts the timer for your account to participate in the local programming competition. Do NOT click unless you have a packet in your hands.</p>
     <p><input type="submit"></p>
 </form>
 

@@ -13,9 +13,9 @@ class MyPage extends Page {
 
         if (isset($_REQUEST['newstatus'])) {
             $rowid = $_REQUEST['id'];
+            $contestant = $_REQUEST['contestant'];
 
-            global $start_time;
-            $minutes_since_start = (int)((time() - strtotime($start_time)) / 60);
+            $minutes_since_start = getMinutesSinceStart($contestant);
 
             $query = "UPDATE submissions SET status={$_REQUEST['newstatus']}, judge='{$this->username}', judgeTime=$minutes_since_start WHERE rowid=$rowid;";
             $db->exec($query);
@@ -45,6 +45,7 @@ class MyPage extends Page {
             echo "     <td>{$s['submitTime']}</td>\n";
             echo "     <td>\n";
             echo "     <form action=\"judge.php\">\n";
+            echo "     <input type=\"hidden\" name=\"contestant\" value=\"{$s['contestant']}\">\n";
             echo "     <input type=\"hidden\" name=\"id\" value=\"{$s['rowid']}\">\n";
             echo "     <select name=\"newstatus\">\n";
 

@@ -53,11 +53,13 @@ class Page {
     }
 
     function showHeader() {
-        global $end_time;
-        $minutes_remaining = (int)((strtotime($end_time) - time()) / 60);
+        global $minutes_in_competition;
+        $minutes_remaining = $minutes_in_competition - getMinutesSinceStart($this->username);
+
         if ($minutes_remaining < 0) {
             $minutes_remaining = 0;
         }
+
 echo <<<END
 <div id="header">
     <img src="images/olemiss.png" width="410" height="136">

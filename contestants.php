@@ -5,6 +5,8 @@ require_once('template.php');
 class MyPage extends Page {
     function main() {
         global $competition_db;
+        global $minutes_in_competition;
+
         $db = new PDO("sqlite:$competition_db");
 
         if (isset($_REQUEST['update'])) {
@@ -27,6 +29,11 @@ class MyPage extends Page {
 
         foreach ($contestants as $c) {
 
+            $minutes_remaining = $minutes_in_competition - getMinutesSinceStart($c['username']);
+            if ($minutes_remaining < 0) {
+                $minutes_remaining = 0;
+            }
+
             $checkEnabled = "";
             $checkDisabled = "";
             if ($c['enabled'] == 1) { $checkEnabled = " CHECKED"; }
@@ -36,6 +43,7 @@ echo <<<END
     <form action="contestants.php">
     <input type="hidden" name="username" value="{$c['username']}">
     <p>Username: {$c['username']}</p>
+    <p>Minutes Remaining: $minutes_remaining</p>
     <p>Name: <input type="text" name="name" value="{$c['name']}"></p>
     <p>Language: {$c['language']}</p>
     <input type="radio" name="enable" value="1"$checkEnabled> Enabled<br>

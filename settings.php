@@ -13,10 +13,7 @@ $problems = array(
     "D" => "IP to Country"
 );
 
-// Times are local, but we can change them to GMT
-$start_time = "2013-01-01 20:00:00";
-$end_time   = "2013-12-31 21:30:00";
-
+$minutes_in_competition = 150;
 $penalty_minutes = 15;
 
 ?>

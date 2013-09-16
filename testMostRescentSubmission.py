@@ -11,11 +11,11 @@ cur.execute("SELECT contestant, problem, path FROM submissions WHERE status=-1 O
 for row in cur.fetchall():
     alltested = False 
 
-    print "Testing:",path
-
     [username, problem, path] = row
-    filename = path.split("/")[-1]
     type = path.split(".")[-1]
+    filename = "Prob%s.%s" % (problem, type)
+
+    print "Testing:",path
 
     newpath = testarea+filename
     shutil.copyfile(path, newpath)
@@ -26,7 +26,8 @@ for row in cur.fetchall():
     if type == "c":
         [status, output] = commands.getstatusoutput("gcc %s" % (newpath))
         print "Compile status: ", status
-        print "Execution output: ", output
+        print "Execution output:"
+        print output
 
         if status == 0:
             [status, output] = commands.getstatusoutput("./%sa.out < %sProb%s/in > %smy.out" % (testarea, testarea, problem, testarea))
@@ -36,7 +37,8 @@ for row in cur.fetchall():
     if type == "cpp":
         [status, output] = commands.getstatusoutput("g++ %s" % (newpath))
         print "Compile status: ", status
-        print "Execution output: ", output
+        print "Execution output:"
+        print output
 
         if status == 0:
             [status, output] = commands.getstatusoutput("./%sa.out < %sProb%s/in > %smy.out" % (testarea, testarea, problem, testarea))
@@ -48,7 +50,8 @@ for row in cur.fetchall():
 
         [status, output] = commands.getstatusoutput("javac %s" % (newpath))
         print "Compile status: ", status
-        print "Execution output: ", output
+        print "Execution output: "
+        print output
 
         if status == 0:
             [status, output] = commands.getstatusoutput("java %s < %sProb%s/in > %smy.out" % (classpath, testarea, problem, testarea))
@@ -82,8 +85,9 @@ for row in cur.fetchall():
     ###############################################################
 
     if status == 0:
-        [status, output] = commands.getstatusoutput("diff %smy.out %sProb%s/out" % (testarea, testarea, problem))
-        print "Diff ouput: ", output
+        [status, output] = commands.getstatusoutput("diff -w %smy.out %sProb%s/out" % (testarea, testarea, problem))
+        print "Diff ouput:"
+        print output
     else:
         print "Error in either compiling or execution."
 

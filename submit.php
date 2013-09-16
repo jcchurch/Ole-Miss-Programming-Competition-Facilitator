@@ -5,21 +5,15 @@ require_once('template.php');
 class MyPage extends Page {
     function main() {
         global $competition_db;
+        global $minutes_in_competition;
+
         echo "<h3>Submit a problem solution.</h3>\n";
         echo "<hr>\n";
         $showInputDialog = true;
 
-        global $start_time;
-        global $end_time;
+        $minutes_since_start = getMinutesSinceStart($this->username);
 
-        $minutes_in_competition = (int)((strtotime($end_time) - strtotime($start_time)) / 60);
-        $minutes_since_start = (int)((time() - strtotime($start_time)) / 60);
-
-        if ((time() - strtotime($start_time)) < 0) {
-            echo "<h4>The competition will begin at $start_time . See you then.</h4>\n";
-            $showInputDialog = false; 
-        }
-        else if ($minutes_since_start > $minutes_in_competition) {
+        if ($minutes_since_start > $minutes_in_competition) {
             echo "<h4>The competition is now over. Thank you for participating. Check the standings to see how you did.</h4>\n";
             $showInputDialog = false; 
         }

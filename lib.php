@@ -46,6 +46,21 @@ function getLoggedInUser() {
     return $loggedIn;
 }
 
+function getMinutesSinceStart($username) {
+    global $competition_db;
+
+    $db = new PDO("sqlite:$competition_db");
+    $query = "SELECT startTime FROM contestants WHERE enabled=1 AND username='$username'";
+
+    $startTime = 0;
+    foreach ($db->query($query) as $n) {
+        $startTime = $n['startTime'];
+    }
+
+    $minutesSinceStart = (int)(time()/60) - $startTime;
+    return $minutesSinceStart;
+}
+
 function getContestants() {
     global $competition_db;
     $db = new PDO("sqlite:$competition_db");
