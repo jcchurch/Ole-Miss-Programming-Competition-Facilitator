@@ -22,8 +22,9 @@ Allowed languages used by this system are C, C++, Java, Python, Ruby, Lua, Scala
 testMostRescentSubmission.py is the script that I use to judge submissions. You can ignore this script or use it. It requires two things:
 
 - The name of the sqlite3 file.
-- The location of your testing directory. The testing directory should be of the following structure:
+- The location of your testing directory.
 
+The testing area.
 
     /mytestarea
         /ProbA
