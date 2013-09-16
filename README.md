@@ -24,6 +24,7 @@ testMostRescentSubmission.py is the script that I use to judge submissions. You 
 - The name of the sqlite3 file.
 - The location of your testing directory. The testing directory should be of the following structure:
 
+
     /mytestarea
         /ProbA
             /in - Judging Input for Problem A
