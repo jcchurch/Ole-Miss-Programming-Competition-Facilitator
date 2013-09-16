@@ -1,6 +1,6 @@
 <?php
 
-// die(); // Uncomment this line after executing. :)
+die(); // Uncomment this line after executing. :)
 
 $competition_db = "competition.db";
 
@@ -10,6 +10,6 @@ $db->exec('CREATE TABLE submissions (contestant TEXT, problem TEXT, submitTime T
 $db->exec('CREATE TABLE contestants (username TEXT PRIMARY KEY, name TEXT, language TEXT, creationTime TEXT, enabled INTEGER, startTime INTEGER);');
 $db->exec('CREATE TABLE users (username TEXT PRIMARY KEY, loggedIn INTEGER, ipaddress TEXT);');
 
-echo("Thank you! Remember to comment out the 'die' command.\n\n");
+echo("Thank you! Remember to uncomment out the 'die' command.\n\n");
 
 ?>
