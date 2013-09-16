@@ -80,9 +80,9 @@ for row in cur.fetchall():
     if type == "scala":
         print "Scala isn't on Turing."
 
-    ###############################################################
-    ############# The program is compiled and execute. ############
-    ###############################################################
+    ################################################################
+    ############# The program is compiled and executed. ############
+    ################################################################
 
     if status == 0:
         [status, output] = commands.getstatusoutput("diff -w %smy.out %sProb%s/out" % (testarea, testarea, problem))
