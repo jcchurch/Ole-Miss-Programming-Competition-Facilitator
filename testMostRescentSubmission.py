@@ -48,13 +48,13 @@ for row in cur.fetchall():
     if type == "java":
         classpath = newpath.replace(".java","")
 
-        [status, output] = commands.getstatusoutput("javac %s" % (newpath))
+        [status, output] = commands.getstatusoutput("javac -sourcepath %s %s" % (testarea, newpath))
         print "Compile status: ", status
         print "Execution output: "
         print output
 
         if status == 0:
-            [status, output] = commands.getstatusoutput("java %s < %sProb%s/in > %smy.out" % (classpath, testarea, problem, testarea))
+            [status, output] = commands.getstatusoutput("java -classpath %s Prob%s < %sProb%s/in > %smy.out" % (testarea, problem, testarea, problem, testarea))
             print "Execution status: ", status
 
     # Lua

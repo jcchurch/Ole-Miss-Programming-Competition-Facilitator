@@ -7,10 +7,10 @@ $competition_db = "competition.db";
 $judges = array("jcchurch");
 
 $problems = array(
-    "A" => "Cowsay",
-    "B" => "Museum Security",
-    "C" => "Determining Triangles",
-    "D" => "IP to Country"
+    "A" => "The Fox",
+    "B" => "Increasing Palindromes",
+    "C" => "Unstoppable!!",
+    "D" => "Decrypt This!"
 );
 
 $minutes_in_competition = 150;
